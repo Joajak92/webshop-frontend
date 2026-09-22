@@ -1,11 +1,19 @@
+import { Route, Routes } from "react-router";
 import "./App.css";
-import LoginPage from "./pages/Login";
+import LoginPage from "./pages/LoginPage";
+import WelcomePage from "./pages/WelcomePage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <>
-      <LoginPage />
-    </>
+    <Routes>
+      <Route path="/login" element={<LoginPage />}></Route>
+      {/* If authenticated -> index 
+      else -> login*/}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<WelcomePage />}></Route>
+      </Route>
+    </Routes>
   );
 }
 
