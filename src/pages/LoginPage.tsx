@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { login } from "../service/authService";
+import { useNavigate } from "react-router";
 
 const LoginPage = () => {
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -14,7 +16,7 @@ const LoginPage = () => {
         password: String(formData.get("password")),
       });
       localStorage.setItem("accessToken", response.accessToken);
-      console.log(response);
+      navigate("/");
     } catch {
       setError("Invalid username or password.");
     }
