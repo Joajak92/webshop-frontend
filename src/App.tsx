@@ -8,8 +8,6 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />}></Route>
-      {/* If authenticated -> index 
-      else -> login*/}
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<WelcomePage />}></Route>
       </Route>
