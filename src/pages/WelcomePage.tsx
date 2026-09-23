@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import { logout } from "../service/authService";
 
+
 const WelcomePage = () => {
   const navigate = useNavigate();
 
@@ -8,6 +9,7 @@ const WelcomePage = () => {
     logout();
     navigate("/login", { replace: true });
   };
+
 
   return (
     <div>
