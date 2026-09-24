@@ -8,9 +8,6 @@ import ProductPage from "./pages/ProductPage";
 function App() {
   return (
     <>
-    <nav>
-      <Link to="/products">Produkter</Link>
-    </nav>
     <Routes>
       <Route path="/login" element={<LoginPage />}></Route>
       <Route element={<ProtectedRoute />}>

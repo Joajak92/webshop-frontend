@@ -27,8 +27,8 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
   sessionStorage.setItem(TOKEN_KEY, result.accessToken);
   sessionStorage.setItem(SUBJECT_KEY, result.subject);
   sessionStorage.setItem(ROLES_KEY, JSON.stringify(result.roles));
-  console.log(response);
-  console.log(responseText);
+  // console.log(response);
+  // console.log(responseText);
 
   return result;
 }
