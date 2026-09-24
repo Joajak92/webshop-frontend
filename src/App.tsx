@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import WelcomePage from "./pages/WelcomePage";
@@ -8,9 +8,6 @@ import ProductPage from "./pages/ProductPage";
 function App() {
   return (
     <>
-    <nav>
-      <Link to="/products">Produkter</Link>
-    </nav>
     <Routes>
       <Route path="/login" element={<LoginPage />}></Route>
       <Route element={<ProtectedRoute />}>
