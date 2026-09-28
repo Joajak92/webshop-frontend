@@ -3,6 +3,7 @@ import type { ProductResponse } from "../types/ProductResponse";
 import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
+import Header from "../components/Header";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
@@ -18,7 +19,7 @@ const ProductPage = () => {
       setProducts(data);
     }
     loadProducts();
-    console.log(products)
+    console.log(products);
   }, []);
 
   function addToCart(product: ProductResponse) {
@@ -27,16 +28,19 @@ const ProductPage = () => {
   }
 
   return (
-    <section>
-      <h1>Produkter</h1>
-      <button onClick={() => setShowCart(!showCart)}>
-        {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
-      </button>
-      {showCart && <Cart items={cartItems} />}
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} onAdd={addToCart} />
-      ))}
-    </section>
+    <>
+      <Header></Header>
+      <section>
+        <h1>Produkter</h1>
+        <button onClick={() => setShowCart(!showCart)}>
+          {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
+        </button>
+        {showCart && <Cart items={cartItems} />}
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} onAdd={addToCart} />
+        ))}
+      </section>
+    </>
   );
 };
 export default ProductPage;
