@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { logout } from "../service/authService";
+import { Link } from "react-router";
 
 
 const WelcomePage = () => {
