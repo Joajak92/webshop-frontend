@@ -23,7 +23,7 @@ function Cart({ items }: CartProps) {
     )}
     <div className="mt-4 border-t-2 border-slate-400 pt-4 text-lg font-bold">Totalt: {total} sek</div>
   </section>
-);
+ );
 }
 
 export default Cart;
