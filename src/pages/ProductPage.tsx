@@ -3,7 +3,6 @@ import type { ProductResponse } from "../types/ProductResponse";
 import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
-import Header from "../components/Header";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
@@ -29,7 +28,6 @@ const ProductPage = () => {
 
   return (
     <>
-      <Header></Header>
       <section>
         <h1>Produkter</h1>
         <button onClick={() => setShowCart(!showCart)}>
