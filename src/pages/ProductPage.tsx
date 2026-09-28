@@ -18,7 +18,7 @@ const ProductPage = () => {
       setProducts(data);
     }
     loadProducts();
-    console.log(products)
+    console.log(products);
   }, []);
 
   function addToCart(product: ProductResponse) {
@@ -27,16 +27,18 @@ const ProductPage = () => {
   }
 
   return (
-    <section>
-      <h1>Produkter</h1>
-      <button onClick={() => setShowCart(!showCart)}>
-        {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
-      </button>
-      {showCart && <Cart items={cartItems} />}
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} onAdd={addToCart} />
-      ))}
-    </section>
+    <>
+      <section>
+        <h1>Produkter</h1>
+        <button onClick={() => setShowCart(!showCart)}>
+          {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
+        </button>
+        {showCart && <Cart items={cartItems} />}
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} onAdd={addToCart} />
+        ))}
+      </section>
+    </>
   );
 };
 export default ProductPage;
