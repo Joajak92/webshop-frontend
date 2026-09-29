@@ -9,8 +9,9 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header></Header>
+      <main className="flex-1">
       <Routes>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route element={<ProtectedRoute />}>
@@ -18,8 +19,9 @@ function App() {
           <Route path="/products" element={<ProductPage />}></Route>
         </Route>
       </Routes>
+      </main>
       <Footer></Footer>
-    </>
+       </div>
   );
 }
 
