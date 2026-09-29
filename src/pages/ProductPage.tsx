@@ -27,18 +27,29 @@ const ProductPage = () => {
   }
 
   return (
-    <>
-      <section>
-        <h1>Produkter</h1>
-        <button onClick={() => setShowCart(!showCart)}>
+    <main className="min-h-screen bg-white text-black">
+      <section className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-12 text-center sm:px-8 sm:py-16">
+        <h1 className="text-3xl font-light tracking-tight sm:text-4xl lg:text-5xl">
+          Produkter
+        </h1>
+        <button
+          onClick={() => setShowCart(!showCart)}
+          className="text-xs uppercase tracking-[0.2em] text-slate-500 underline-offset-8 transition hover:text-black hover:underline"
+        >
           {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
         </button>
-        {showCart && <Cart items={cartItems} />}
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAdd={addToCart} />
-        ))}
+        {showCart && (
+          <div className="w-full max-w-md">
+            <Cart items={cartItems} />
+          </div>
+        )}
+        <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} onAdd={addToCart} />
+          ))}
+        </div>
       </section>
-    </>
+    </main>
   );
 };
 export default ProductPage;
