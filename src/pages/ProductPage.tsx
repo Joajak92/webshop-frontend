@@ -3,7 +3,7 @@ import type { ProductResponse } from "../types/ProductResponse";
 import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
-import type { CartItem, Product } from "../types/product-cart";
+import type { CartItem, Product } from "../types/Product-cart";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);

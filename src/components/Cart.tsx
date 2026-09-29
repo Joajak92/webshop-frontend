@@ -1,4 +1,4 @@
-import type { CartItem } from "../types/product-cart";
+import type { CartItem } from "../types/Product-cart";
 
 type CartProps = {
   items: CartItem[];
