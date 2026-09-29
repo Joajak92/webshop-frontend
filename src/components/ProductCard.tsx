@@ -1,8 +1,9 @@
-import type { ProductResponse } from "../types/ProductResponse";
+import type { Product } from "../types/Product-cart";
+
 
 type ProductCardProps = {
-  product: ProductResponse;
-  onAdd: (product: ProductResponse) => void;
+  product: Product;
+  onAdd: (product: Product) => void;
 };
 function ProductCard({ product, onAdd }: ProductCardProps) {
   return (
@@ -20,7 +21,7 @@ function ProductCard({ product, onAdd }: ProductCardProps) {
       </div>
 
       <p className="flex-1 text-sm leading-relaxed text-black px-4">
-        {product.description}
+        {/* {product.description} */}
       </p>
 
       <button
