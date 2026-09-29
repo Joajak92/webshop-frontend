@@ -3,10 +3,11 @@ import type { ProductResponse } from "../types/ProductResponse";
 import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
+import type { CartItem, Product } from "../types/product-cart";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
-  const [cartItems, setCartItems] = useState<ProductResponse[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   useEffect(() => {
     async function loadProducts() {
@@ -21,10 +22,80 @@ const ProductPage = () => {
     console.log(products);
   }, []);
 
-  function addToCart(product: ProductResponse) {
-    setCartItems((currentItems) => [...currentItems, product]);
-    alert(`${product.name} har lagts i kundvagnen`);
+  function addToCart(product: Product) {
+    const index = cartItems.findIndex((item) => item.id === product.id);
+
+    if(index === -1) {
+      const newItem = { ...product, quantity: 1 };
+      setCartItems([...cartItems, newItem]);
+      return;
+    }
+
+    const currentItem = cartItems[index];
+
+    if(currentItem.quantity >= currentItem.stock) {
+      alert("Det finns inte fler produkter i lager");
+      return;
+    }
+
+    const updatedItems = [...cartItems];
+
+    updatedItems[index] = {
+      ...currentItem,
+      quantity: currentItem.quantity + 1,
+    };
+
+    setCartItems(updatedItems);
+
+
   }
+
+function increaseQuantity(productId: number) {
+const index = cartItems.findIndex(
+    (item) => item.id === productId
+  );
+
+const currentItem = cartItems[index];
+
+if(currentItem.quantity >= currentItem.stock) {
+  alert("Det finns inte fler produkter i lager");
+  return;
+}
+
+const updatedItems = [...cartItems];
+
+updatedItems[index] = {
+  ...currentItem,
+  quantity: currentItem.quantity +1,
+};
+
+setCartItems(updatedItems);
+
+}
+
+function decreaseQuantity(productId: number) {
+  const index = cartItems.findIndex((item) => item.id === productId);
+
+  const currentItem = cartItems[index];
+  const updatedItems = [...cartItems];
+
+  if(currentItem.quantity === 1) {
+    updatedItems.splice(index, 1);
+    setCartItems(updatedItems);
+    return;
+  }
+
+  updatedItems[index] = {
+    ...currentItem,
+    quantity: currentItem.quantity - 1,
+  };
+
+  setCartItems(updatedItems);
+
+
+}
+
+
 
   return (
     <main className="min-h-screen bg-white text-black">
@@ -40,7 +111,11 @@ const ProductPage = () => {
         </button>
         {showCart && (
           <div className="w-full max-w-md">
-            <Cart items={cartItems} />
+            <Cart 
+            items={cartItems}
+            onIncrease={increaseQuantity}
+            onDecrease={decreaseQuantity}
+            />
           </div>
         )}
         <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -51,5 +126,9 @@ const ProductPage = () => {
       </section>
     </main>
   );
-};
+}
+
+
 export default ProductPage;
+
+
