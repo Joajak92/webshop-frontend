@@ -46,3 +46,8 @@ export function getToken(): string | null {
 export function isAuthenticated(): boolean {
   return getToken() !== null;
 }
+
+export function getPermissions() {
+  const role = sessionStorage.getItem("roles");
+  return role ? Promise.resolve(role) : Promise.reject();
+}
