@@ -21,7 +21,7 @@ function ProductCard({ product, onAdd }: ProductCardProps) {
       </div>
 
       <p className="flex-1 text-sm leading-relaxed text-black px-4">
-        {/* {product.description} */}
+        {product.description}
       </p>
 
       <button

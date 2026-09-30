@@ -17,19 +17,17 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
     body: JSON.stringify(credentials),
   });
 
-  const responseText = await response.text();
   if (!response.ok) {
     throw new Error("Fel användarnamn eller lösenord");
   }
+
+  const responseText = await response.text();
 
   const result = JSON.parse(responseText) as LoginResponse;
 
   sessionStorage.setItem(TOKEN_KEY, result.accessToken);
   sessionStorage.setItem(SUBJECT_KEY, result.subject);
   sessionStorage.setItem(ROLES_KEY, JSON.stringify(result.roles));
-  // console.log(response);
-  // console.log(responseText);
-
   return result;
 }
 

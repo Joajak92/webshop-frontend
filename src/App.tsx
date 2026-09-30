@@ -7,6 +7,7 @@ import ProductPage from "./pages/ProductPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AdminPage from "./pages/AdminPage";
+import AddProductPage from "./pages/AddProductPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<WelcomePage />}></Route>
             <Route path="/products" element={<ProductPage />}></Route>
             <Route path="/admin" element={<AdminPage />}></Route>
+            <Route path="/admin/add-product" element={<AddProductPage />}></Route>
           </Route>
         </Routes>
       </main>
