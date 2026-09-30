@@ -18,8 +18,6 @@ export async function getProducts(): Promise<ProductRequest[]> {
   if (!response.ok) {
     throw new Error("Kunde inte hämta produkter");
   }
-
-  console.log("Servicerespons: " + response);
   return (await response.json()) as ProductRequest[];
 }
 
@@ -40,6 +38,6 @@ export async function addProduct(
   }
 
   const responseText = await response.text();
-  const result = JSON.parse(responseText) as ProductResponse;
+  const result = (await JSON.parse(responseText)) as ProductResponse;
   return result;
 }

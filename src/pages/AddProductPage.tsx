@@ -36,7 +36,6 @@ const AddProductPage = () => {
 
     try {
       const response = await addProduct({
-        id: Number(formData.get("id")),
         name: String(formData.get("name")),
         description: String(formData.get("description")),
         price: Number(formData.get("price")),
@@ -45,9 +44,9 @@ const AddProductPage = () => {
 
       console.log(response);
       navigate("/products");
-    } catch {
+    } catch (error) {
       setError("Produkten kunde inte skapas eller läggas till i lagret.");
-      alert(error);
+      console.log(error);
     }
   }
 
