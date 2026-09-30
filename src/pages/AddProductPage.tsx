@@ -5,7 +5,6 @@ import { addProduct } from "../service/productService";
 
 const AddProductPage = () => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,22 +30,22 @@ const AddProductPage = () => {
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError("");
     const formData = new FormData(event.currentTarget);
 
     try {
-      const response = await addProduct({
+      await addProduct({
+        id: Number(formData.get("id")),
         name: String(formData.get("name")),
         description: String(formData.get("description")),
         price: Number(formData.get("price")),
         stock: Number(formData.get("stock")),
       });
-
-      console.log(response);
       navigate("/products");
     } catch (error) {
-      setError("Produkten kunde inte skapas eller läggas till i lagret.");
-      console.log(error);
+      console.error(
+        "Produkten kunde inte skapas eller läggas till i lagret.",
+        error,
+      );
     }
   }
 
