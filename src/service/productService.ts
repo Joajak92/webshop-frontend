@@ -5,7 +5,7 @@ import { getToken } from "./authService";
 const productUrl =
   import.meta.env.VITE_AUTH_API_URL ?? "http://localhost:8080/products";
 
-export async function getProducts(): Promise<ProductRequest[]> {
+export async function getProducts(): Promise<ProductResponse[]> {
   const token = getToken();
 
   const response = await fetch(`${productUrl}`, {
@@ -18,7 +18,7 @@ export async function getProducts(): Promise<ProductRequest[]> {
   if (!response.ok) {
     throw new Error("Kunde inte hämta produkter");
   }
-  return (await response.json()) as ProductRequest[];
+  return (await response.json()) as ProductResponse[];
 }
 
 export async function addProduct(
