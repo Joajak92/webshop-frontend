@@ -4,11 +4,50 @@ import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
 import type { CartItem, Product } from "../types/Product-cart";
+import { createOrder } from "../service/orderService";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
+
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const savedCart = sessionStorage.getItem("cart");
+    if (savedCart) {
+      return JSON.parse(savedCart);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem(
+    "cart",
+    JSON.stringify(cartItems)
+  );
+}, [cartItems]);
+
+
+const handleCheckout = async () => {
+  if (cartItems.length === 0) {
+    alert("Kundvagnen är tom")
+    return;
+  }
+  const orderRequest = {
+    items: cartItems.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    })),
+  };
+
+  try {
+    await createOrder(orderRequest);
+    setCartItems([]);
+    sessionStorage.removeItem("cart");
+    alert("Ordern har skapats.");
+  } catch {
+    alert("Något gick fel när ordern skulle skapas");
+  }
+};
+
   useEffect(() => {
     async function loadProducts() {
       const data = await getProducts();
@@ -115,6 +154,7 @@ function decreaseQuantity(productId: number) {
             items={cartItems}
             onIncrease={increaseQuantity}
             onDecrease={decreaseQuantity}
+            onCheckout={handleCheckout}
             />
           </div>
         )}
