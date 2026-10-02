@@ -1,7 +1,6 @@
 import { expect, it, vi } from "vitest";
 import ProductCard from "../components/ProductCard";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { on } from "events";
 
 const testProduct = {
   id: 1,
