@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router";
 import { getToken, logout } from "../service/authService";
-import { useEffect, useState } from "react";
-
 const Header = () => {
   const navigate = useNavigate();
   const isLoggedIn = !!getToken();
