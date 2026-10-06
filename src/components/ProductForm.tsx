@@ -15,7 +15,7 @@ const ProductForm = ({ onSubmit }: ProductFormProps) => {
       price: Number(formData.get("price")),
       stock: Number(formData.get("stock")),
       category: String(formData.get("category")),
-      imgUrl: String(formData.get("imgUrl")),
+      imgUrl: String(formData.get("imgUrl"))
     });
   }
 
@@ -91,11 +91,11 @@ const ProductForm = ({ onSubmit }: ProductFormProps) => {
               Kategori
             </label>
           </div>
-          <input
-            id="category"
-            name="category"
-            required
-            className="bg-white text-black p-2"
+          <input 
+          id="category"
+          name="category"
+          required
+          className="bg-white text-black p-2"
           />
         </div>
 
@@ -106,11 +106,10 @@ const ProductForm = ({ onSubmit }: ProductFormProps) => {
             </label>
           </div>
           <input
-            id="imgUrl"
-            name="imgUrl"
-            type="url"
-            required
-            className="bg-white text-black p-2"
+          id="imgUrl"
+          name="imgUrl"
+          type="url"
+          className="bg-white text-black p-2"
           />
         </div>
 
