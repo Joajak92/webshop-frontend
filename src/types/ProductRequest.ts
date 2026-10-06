@@ -3,6 +3,6 @@ export type ProductRequest = {
     description: string;
     price: number;
     stock: number;
-    category: string;
-    imgUrl: string;
+    category?: string;
+    imgUrl?: string;
 };
