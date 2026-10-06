@@ -4,10 +4,15 @@ import { getProducts } from "../service/productService";
 import { getPermissions, isAuthenticated } from "../service/authService";
 import { Navigate } from "react-router";
 import AdminProductCard from "../components/AdminProductCard";
+import { useCategoryFilter } from "../hooks/useCategoryFilter";
+import CategoryFilter from "../components/CategoryFilter";
 
 const AdminPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+
+  const {categories, selectedCategory, setSelectedCategory, filteredProducts} =
+  useCategoryFilter(products);
 
   useEffect(() => {
     async function verifyAdmin() {
@@ -50,8 +55,15 @@ const AdminPage = () => {
         <h1 className="text-3xl font-light tracking-tight sm:text-4xl lg:text-5xl">
           Adminsida
         </h1>
+
+        <CategoryFilter
+        categories={categories}
+        selected={selectedCategory}
+        onChange={setSelectedCategory}
+        />
+
         <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <AdminProductCard key={product.id} product={product} />
           ))}
         </div>

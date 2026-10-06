@@ -5,10 +5,15 @@ import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
 import type { CartItem, Product } from "../types/Product-cart";
 import { createOrder } from "../service/orderService";
+import { useCategoryFilter } from "../hooks/useCategoryFilter";
+import CategoryFilter from "../components/CategoryFilter";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [showCart, setShowCart] = useState(false);
+
+  const { categories, selectedCategory, setSelectedCategory, filteredProducts } =
+  useCategoryFilter(products);
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -148,6 +153,13 @@ function decreaseQuantity(productId: number) {
         >
           {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
         </button>
+
+        <CategoryFilter
+        categories={categories}
+        selected={selectedCategory}
+        onChange={setSelectedCategory}
+        />
+
         {showCart && (
           <div className="w-full max-w-md">
             <Cart 
@@ -159,7 +171,7 @@ function decreaseQuantity(productId: number) {
           </div>
         )}
         <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} onAdd={addToCart} />
           ))}
         </div>

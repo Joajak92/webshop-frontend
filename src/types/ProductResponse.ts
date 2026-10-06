@@ -4,4 +4,6 @@ export type ProductResponse = {
     description: string;
     price: number;
     stock: number;
+    category: string;
+    imgUrl: string;
 };
