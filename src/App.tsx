@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AdminPage from "./pages/AdminPage";
 import AddProductPage from "./pages/AddProductPage";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -20,7 +21,11 @@ function App() {
             <Route path="/" element={<WelcomePage />}></Route>
             <Route path="/products" element={<ProductPage />}></Route>
             <Route path="/admin" element={<AdminPage />}></Route>
-            <Route path="/admin/add-product" element={<AddProductPage />}></Route>
+            <Route
+              path="/admin/add-product"
+              element={<AddProductPage />}
+            ></Route>
+            <Route path="*" element={<NotFound />}></Route>
           </Route>
         </Routes>
       </main>
