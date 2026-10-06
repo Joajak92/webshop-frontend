@@ -8,6 +8,7 @@ const testProduct = {
   description: "A tested product",
   price: 30,
   stock: 100,
+  imgUrl: "https://example-image.com",
 };
 
 const onAdd = () => {};

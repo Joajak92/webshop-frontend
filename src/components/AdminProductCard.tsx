@@ -6,9 +6,12 @@ type AdminProductCardProps = {
 function AdminProductCard({ product }: AdminProductCardProps) {
   return (
     <article className="flex h-full flex-col overflow-hidden border border-slate-400 bg-white text-left">
-      <div className="flex aspect-[4/3] items-center justify-center bg-slate-400 text-lg tracking-widest text-white">
-        Bild?
-      </div>
+      <img
+        src={product.imgUrl}
+        alt={product.name}
+        className="aspect-[4/3] w-full object-cover bg-slate-400"
+      />
+
       <div className="flex flex-1 flex-col gap-2 border-t border-slate-400 p-4">
         <div className="flex items-center justify-between gap-4">
           <h2 className="text-lg font-medium text-black">{product.name}</h2>
