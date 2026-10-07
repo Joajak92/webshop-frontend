@@ -7,6 +7,8 @@ import type { CartItem, Product } from "../types/Product-cart";
 import { createOrder } from "../service/orderService";
 import { useCategoryFilter } from "../hooks/useCategoryFilter";
 import CategoryFilter from "../components/CategoryFilter";
+import { useProductSearch } from "../hooks/useProductSearch";
+import ProductSearch from "../components/ProductSearch";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
@@ -14,6 +16,9 @@ const ProductPage = () => {
 
   const { categories, selectedCategory, setSelectedCategory, filteredProducts } =
   useCategoryFilter(products);
+
+  const { searchTerm, setSearchTerm, searchedProducts } =
+  useProductSearch(filteredProducts);
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -154,11 +159,14 @@ function decreaseQuantity(productId: number) {
           {showCart ? "Dölj kundvagn" : "Visa kundvagn"}
         </button>
 
-        <CategoryFilter
-        categories={categories}
-        selected={selectedCategory}
-        onChange={setSelectedCategory}
-        />
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <ProductSearch value={searchTerm} onChange={setSearchTerm} />
+          <CategoryFilter
+            categories={categories}
+            selected={selectedCategory}
+            onChange={setSelectedCategory}
+          />
+        </div>
 
         {showCart && (
           <div className="w-full max-w-md">
@@ -171,9 +179,15 @@ function decreaseQuantity(productId: number) {
           </div>
         )}
         <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onAdd={addToCart} />
-          ))}
+          {searchedProducts.length === 0 && searchTerm.trim() !== "" ? (
+            <p className="col-span-full text-sm text-slate-500">
+              Inga produkter hittades
+            </p>
+          ) : (
+            searchedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} onAdd={addToCart} />
+            ))
+          )}
         </div>
       </section>
     </main>
@@ -182,5 +196,3 @@ function decreaseQuantity(productId: number) {
 
 
 export default ProductPage;
-
-
