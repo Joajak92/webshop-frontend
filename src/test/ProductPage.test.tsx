@@ -2,6 +2,7 @@ import { beforeEach, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ProductPage from "../pages/ProductPage";
 import { getProducts } from "../service/productService";
+import { MemoryRouter } from "react-router";
 
 vi.mock("../service/productService", () => ({
   getProducts: vi.fn(),
@@ -37,6 +38,14 @@ const testProducts = [
   },
 ];
 
+const mockProps = {
+  cartItems: [],
+  addToCart: vi.fn(),
+  onIncrease: vi.fn(),
+  onDecrease: vi.fn(),
+  onCheckout: vi.fn(),
+};
+
 const getProductsMock = vi.mocked(getProducts);
 
 beforeEach(() => {
@@ -46,23 +55,41 @@ beforeEach(() => {
 });
 
 it("Searches by product name and description", async () => {
-  render(<ProductPage />);
+  render(
+    <MemoryRouter>
+      render(
+      <ProductPage {...mockProps} />
+      );
+    </MemoryRouter>,
+  );
 
   const searchInput = await screen.findByRole("searchbox", {
     name: /sök produkter/i,
   });
 
   fireEvent.change(searchInput, { target: { value: "RÖD" } });
-  expect(screen.getByRole("heading", { name: "Röd cykel" })).toBeInTheDocument();
-  expect(screen.queryByRole("heading", { name: "Blå hjälm" })).not.toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Röd cykel" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole("heading", { name: "Blå hjälm" }),
+  ).not.toBeInTheDocument();
 
   fireEvent.change(searchInput, { target: { value: "skyddar" } });
-  expect(screen.getByRole("heading", { name: "Blå hjälm" })).toBeInTheDocument();
-  expect(screen.queryByRole("heading", { name: "Röd cykel" })).not.toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Blå hjälm" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole("heading", { name: "Röd cykel" }),
+  ).not.toBeInTheDocument();
 });
 
 it("Combines search with the selected category", async () => {
-  render(<ProductPage />);
+  render(
+    <MemoryRouter>
+      <ProductPage {...mockProps} />
+    </MemoryRouter>,
+  );
 
   await screen.findByRole("heading", { name: "Röd cykel" });
 
@@ -73,13 +100,23 @@ it("Combines search with the selected category", async () => {
     target: { value: "cykel" },
   });
 
-  expect(screen.getByRole("heading", { name: "Blå hjälm" })).toBeInTheDocument();
-  expect(screen.queryByRole("heading", { name: "Röd cykel" })).not.toBeInTheDocument();
-  expect(screen.queryByRole("heading", { name: "Gul cykel" })).not.toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Blå hjälm" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole("heading", { name: "Röd cykel" }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole("heading", { name: "Gul cykel" }),
+  ).not.toBeInTheDocument();
 });
 
 it("Shows a message when no products match and resets an empty search", async () => {
-  render(<ProductPage />);
+  render(
+    <MemoryRouter>
+      <ProductPage {...mockProps} />
+    </MemoryRouter>,
+  );
 
   const searchInput = await screen.findByRole("searchbox", {
     name: /sök produkter/i,
@@ -90,7 +127,13 @@ it("Shows a message when no products match and resets an empty search", async ()
 
   fireEvent.change(searchInput, { target: { value: "" } });
   expect(screen.queryByText("Inga produkter hittades")).not.toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: "Röd cykel" })).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: "Blå hjälm" })).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: "Gul cykel" })).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Röd cykel" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Blå hjälm" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "Gul cykel" }),
+  ).toBeInTheDocument();
 });

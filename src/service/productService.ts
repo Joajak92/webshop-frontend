@@ -21,6 +21,20 @@ export async function getProducts(): Promise<ProductResponse[]> {
   return (await response.json()) as ProductResponse[];
 }
 
+export async function getProductById(id: number): Promise<ProductResponse> {
+  const response = await fetch(`${productUrl}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Produkten kunde inte hämtas");
+  }
+  return response.json();
+}
+
 export async function addProduct(
   product: ProductRequest,
 ): Promise<ProductResponse> {

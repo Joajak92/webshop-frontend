@@ -1,6 +1,7 @@
 import { expect, it, vi } from "vitest";
 import ProductCard from "../components/ProductCard";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 
 const testProduct = {
   id: 1,
@@ -14,7 +15,11 @@ const testProduct = {
 const onAdd = () => {};
 
 it("Displays product information", () => {
-  render(<ProductCard product={testProduct} onAdd={onAdd} />);
+  render(
+    <MemoryRouter>
+      <ProductCard product={testProduct} onAdd={onAdd} />
+    </MemoryRouter>,
+  );
   expect(screen.getByText("Test")).toBeInTheDocument();
   expect(screen.getByText("A tested product")).toBeInTheDocument();
   expect(screen.getByText(/30/)).toBeInTheDocument();
@@ -22,7 +27,11 @@ it("Displays product information", () => {
 
 it("Should call onAdd with the product when the button is clicked", () => {
   const onAddMock = vi.fn();
-  render(<ProductCard product={testProduct} onAdd={onAddMock} />);
+  render(
+    <MemoryRouter>
+      <ProductCard product={testProduct} onAdd={onAddMock} />
+    </MemoryRouter>,
+  );
   const addButton = screen.getByRole("button", { name: /lägg i kundvagnen/i });
   fireEvent.click(addButton);
   expect(onAddMock).toHaveBeenCalledTimes(1);

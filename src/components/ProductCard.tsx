@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Product } from "../types/Product-cart";
 
 type ProductCardProps = {
@@ -15,7 +16,12 @@ function ProductCard({ product, onAdd }: ProductCardProps) {
 
       <div className="flex flex-1 flex-col gap-2 border-t border-slate-400 p-4">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-lg font-medium text-black">{product.name}</h2>
+          <Link to={`/products/${product.id}`}>
+            <h2 className="text-lg font-medium text-black underline hover:no-underline">
+              {product.name}
+            </h2>
+          </Link>
+
           <span className="rounded-md border border-slate-400 px-3 py-1 text-sm text-black">
             {product.price} sek
           </span>
