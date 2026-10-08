@@ -2,6 +2,7 @@ import { beforeEach, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ProductPage from "../pages/ProductPage";
 import { getProducts } from "../service/productService";
+import { MemoryRouter } from "react-router";
 
 vi.mock("../service/productService", () => ({
   getProducts: vi.fn(),
@@ -54,7 +55,13 @@ beforeEach(() => {
 });
 
 it("Searches by product name and description", async () => {
-  render(<ProductPage {...mockProps} />);
+  render(
+    <MemoryRouter>
+      render(
+      <ProductPage {...mockProps} />
+      );
+    </MemoryRouter>,
+  );
 
   const searchInput = await screen.findByRole("searchbox", {
     name: /sök produkter/i,
@@ -78,7 +85,11 @@ it("Searches by product name and description", async () => {
 });
 
 it("Combines search with the selected category", async () => {
-  render(<ProductPage {...mockProps} />);
+  render(
+    <MemoryRouter>
+      <ProductPage {...mockProps} />
+    </MemoryRouter>,
+  );
 
   await screen.findByRole("heading", { name: "Röd cykel" });
 
@@ -101,7 +112,11 @@ it("Combines search with the selected category", async () => {
 });
 
 it("Shows a message when no products match and resets an empty search", async () => {
-  render(<ProductPage {...mockProps} />);
+  render(
+    <MemoryRouter>
+      <ProductPage {...mockProps} />
+    </MemoryRouter>,
+  );
 
   const searchInput = await screen.findByRole("searchbox", {
     name: /sök produkter/i,
