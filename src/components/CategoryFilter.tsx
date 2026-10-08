@@ -10,7 +10,7 @@ const CategoryFilter = ({categories, selected, onChange}: CategoryFilterProps) =
     <select
     value={selected}
     onChange={(e) => onChange(e.target.value)}
-    className="border-b border-slate-300 bg-transparent px-2 py-1 text-xs uppercase tracking-[0.2em] text-slate-500 focus:outline-none"
+        className="w-56 border-b border-slate-300 bg-transparent px-2 py-1 text-xs uppercase tracking-[0.2em] text-slate-500 focus:outline-none"
     >
         <option value="">Alla kategorier</option>
         {categories.map((c) => (
