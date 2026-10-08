@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import AdminPage from "./pages/AdminPage";
 import AddProductPage from "./pages/AddProductPage";
 import NotFound from "./pages/NotFound";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <main className="flex-1">
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
+
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<WelcomePage />}></Route>
             <Route path="/products" element={<ProductPage />}></Route>
@@ -25,6 +27,7 @@ function App() {
               path="/admin/add-product"
               element={<AddProductPage />}
             ></Route>
+            <Route path="/products/:id" element={<ProductDetailPage />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Route>
         </Routes>
