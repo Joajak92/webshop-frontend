@@ -4,26 +4,13 @@ import { getProducts } from "../service/productService";
 import ProductCard from "../components/ProductCard";
 import Cart from "../components/Cart";
 import type { CartItem, Product } from "../types/Product-cart";
+import { createOrder } from "../service/orderService";
 import { useCategoryFilter } from "../hooks/useCategoryFilter";
 import CategoryFilter from "../components/CategoryFilter";
 import { useProductSearch } from "../hooks/useProductSearch";
 import ProductSearch from "../components/ProductSearch";
 
-type ProductPageProps = {
-  cartItems: CartItem[];
-  addToCart: (product: Product) => void;
-  onIncrease: (productId: number) => void;
-  onDecrease: (prodictId: number) => void;
-  onCheckout: () => Promise<void>;
-};
-
-const ProductPage = ({
-  cartItems,
-  addToCart,
-  onIncrease,
-  onDecrease,
-  onCheckout,
-}: ProductPageProps) => {
+const ProductPageTest = () => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [showCart, setShowCart] = useState(false);
 
@@ -37,6 +24,40 @@ const ProductPage = ({
   const { searchTerm, setSearchTerm, searchedProducts } =
     useProductSearch(filteredProducts);
 
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const savedCart = sessionStorage.getItem("cart");
+    if (savedCart) {
+      return JSON.parse(savedCart);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      alert("Kundvagnen är tom");
+      return;
+    }
+    const orderRequest = {
+      items: cartItems.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+
+    try {
+      await createOrder(orderRequest);
+      setCartItems([]);
+      sessionStorage.removeItem("cart");
+      alert("Ordern har skapats.");
+    } catch {
+      alert("Något gick fel när ordern skulle skapas");
+    }
+  };
+
   useEffect(() => {
     async function loadProducts() {
       const data = await getProducts();
@@ -49,6 +70,72 @@ const ProductPage = ({
     loadProducts();
     console.log(products);
   }, []);
+
+  function addToCart(product: Product) {
+    const index = cartItems.findIndex((item) => item.id === product.id);
+
+    if (index === -1) {
+      const newItem = { ...product, quantity: 1 };
+      setCartItems([...cartItems, newItem]);
+      return;
+    }
+
+    const currentItem = cartItems[index];
+
+    if (currentItem.quantity >= currentItem.stock) {
+      alert("Det finns inte fler produkter i lager");
+      return;
+    }
+
+    const updatedItems = [...cartItems];
+
+    updatedItems[index] = {
+      ...currentItem,
+      quantity: currentItem.quantity + 1,
+    };
+
+    setCartItems(updatedItems);
+  }
+
+  function increaseQuantity(productId: number) {
+    const index = cartItems.findIndex((item) => item.id === productId);
+
+    const currentItem = cartItems[index];
+
+    if (currentItem.quantity >= currentItem.stock) {
+      alert("Det finns inte fler produkter i lager");
+      return;
+    }
+
+    const updatedItems = [...cartItems];
+
+    updatedItems[index] = {
+      ...currentItem,
+      quantity: currentItem.quantity + 1,
+    };
+
+    setCartItems(updatedItems);
+  }
+
+  function decreaseQuantity(productId: number) {
+    const index = cartItems.findIndex((item) => item.id === productId);
+
+    const currentItem = cartItems[index];
+    const updatedItems = [...cartItems];
+
+    if (currentItem.quantity === 1) {
+      updatedItems.splice(index, 1);
+      setCartItems(updatedItems);
+      return;
+    }
+
+    updatedItems[index] = {
+      ...currentItem,
+      quantity: currentItem.quantity - 1,
+    };
+
+    setCartItems(updatedItems);
+  }
 
   return (
     <main className="min-h-screen bg-white text-black">
@@ -76,9 +163,9 @@ const ProductPage = ({
           <div className="w-full max-w-md">
             <Cart
               items={cartItems}
-              onIncrease={onIncrease}
-              onDecrease={onDecrease}
-              onCheckout={onCheckout}
+              onIncrease={increaseQuantity}
+              onDecrease={decreaseQuantity}
+              onCheckout={handleCheckout}
             />
           </div>
         )}
@@ -102,4 +189,4 @@ const ProductPage = ({
   );
 };
 
-export default ProductPage;
+export default ProductPageTest;

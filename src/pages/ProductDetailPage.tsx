@@ -11,8 +11,8 @@ const ProductDetailPage = ({ addToCart }: ProductDetailPageProps) => {
   const { id } = useParams();
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [_loading, setLoading] = useState(true);
+  const [_error, setError] = useState("");
 
   useEffect(() => {
     async function loadProduct() {
