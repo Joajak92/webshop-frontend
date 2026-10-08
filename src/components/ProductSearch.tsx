@@ -14,7 +14,8 @@ const ProductSearch = ({ value, onChange }: ProductSearchProps) => (
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder="Sök produkter"
-      className="border-b border-slate-300 bg-transparent px-2 py-1 text-xs tracking-[0.2em] text-slate-500 placeholder:uppercase focus:outline-none"
+      className="w-56 border-b border-slate-300 bg-transparent px-2 py-1 text-xs tracking-[0.2em] text-slate-500 placeholder:uppercase focus:outline-none"
+
     />
   </>
 );
