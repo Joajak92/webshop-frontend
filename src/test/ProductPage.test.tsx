@@ -1,6 +1,6 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import ProductPageTest from "../test/ProductPageTest";
+import ProductPage from "../pages/ProductPage";
 import { getProducts } from "../service/productService";
 
 vi.mock("../service/productService", () => ({
@@ -37,6 +37,14 @@ const testProducts = [
   },
 ];
 
+const mockProps = {
+  cartItems: [],
+  addToCart: vi.fn(),
+  onIncrease: vi.fn(),
+  onDecrease: vi.fn(),
+  onCheckout: vi.fn(),
+};
+
 const getProductsMock = vi.mocked(getProducts);
 
 beforeEach(() => {
@@ -46,7 +54,7 @@ beforeEach(() => {
 });
 
 it("Searches by product name and description", async () => {
-  render(<ProductPageTest />);
+  render(<ProductPage {...mockProps} />);
 
   const searchInput = await screen.findByRole("searchbox", {
     name: /sök produkter/i,
@@ -70,7 +78,7 @@ it("Searches by product name and description", async () => {
 });
 
 it("Combines search with the selected category", async () => {
-  render(<ProductPageTest />);
+  render(<ProductPage {...mockProps} />);
 
   await screen.findByRole("heading", { name: "Röd cykel" });
 
@@ -93,7 +101,7 @@ it("Combines search with the selected category", async () => {
 });
 
 it("Shows a message when no products match and resets an empty search", async () => {
-  render(<ProductPageTest />);
+  render(<ProductPage {...mockProps} />);
 
   const searchInput = await screen.findByRole("searchbox", {
     name: /sök produkter/i,
