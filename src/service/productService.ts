@@ -3,7 +3,8 @@ import type { ProductResponse } from "../types/ProductResponse";
 import { getToken } from "./authService";
 
 const productUrl =
-  import.meta.env.VITE_AUTH_API_URL ?? "http://localhost:9003/gateway/products";
+  import.meta.env.VITE_PRODUCT_API_URL ??
+  "http://localhost:9003/gateway/products";
 
 export async function getProducts(): Promise<ProductResponse[]> {
   const token = getToken();
