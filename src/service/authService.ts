@@ -2,7 +2,7 @@ import type { LoginRequest } from "../types/LoginRequest";
 import type { LoginResponse } from "../types/LoginResponse";
 
 const loginUrl =
-  import.meta.env.VITE_AUTH_API_URL ?? "http://localhost:9000/auth/login";
+  import.meta.env.VITE_AUTH_API_URL ?? "http://localhost:9003/gateway/login";
 
 const TOKEN_KEY = "access_token";
 const SUBJECT_KEY = "subject";
