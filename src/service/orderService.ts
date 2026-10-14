@@ -2,7 +2,7 @@ import { getToken } from "./authService";
 import type { CreateOrderRequest } from "../types/Order";
 
 
-const ordersUrl = import.meta.env.VITE_ORDER_API_URL ?? "http://localhost:7500/orders";
+const ordersUrl = import.meta.env.VITE_ORDER_API_URL ?? "http://localhost:9003/gateway/orders";
 
 export const createOrder = async (order: CreateOrderRequest) => {
 const token = getToken();
