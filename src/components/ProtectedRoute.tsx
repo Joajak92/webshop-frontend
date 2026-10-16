@@ -6,7 +6,7 @@ type ProtectedRouteProps = {
   user: User | null;
 };
 
-const ProtectedRoute = ({user}: ProtectedRouteProps) => {
+const ProtectedRoute = ({ user }: ProtectedRouteProps) => {
   if (!user) {
     return <Navigate to="/login" replace />;
   }
