@@ -13,8 +13,12 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import { useEffect, useState } from "react";
 import type { CartItem, Product } from "./types/Product-cart";
 import { createOrder } from "./service/orderService";
+import type { LoginRequest } from "./types/LoginRequest";
+import { login, logout } from "./service/authService";
+import type { User } from "./types/LoginResponse";
 
 function App() {
+  const [user, setUser] = useState<User | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
     if (savedCart) {
@@ -26,6 +30,11 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
+
+  async function handleLogin(credentials: LoginRequest) {
+    const loggedInUser = await login(credentials);
+    setUser(loggedInUser)
+  }
 
   function addToCart(product: Product) {
     const index = cartItems.findIndex((item) => item.id === product.id);
@@ -114,14 +123,19 @@ function App() {
     }
   };
 
+  async function handleLogout() {
+    await logout();
+    setUser(null);
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
-      <Header></Header>
+      <Header user={user} onLogout={handleLogout}></Header>
       <main className="flex-1">
         <Routes>
-          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/login" element={<LoginPage onLogin={handleLogin} />}></Route>
 
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute  user={user}/>}>
             <Route path="/" element={<WelcomePage />}></Route>
             <Route
               path="/products"
@@ -135,10 +149,10 @@ function App() {
                 />
               }
             ></Route>
-            <Route path="/admin" element={<AdminPage />}></Route>
+            <Route path="/admin" element={<AdminPage user={user}/>}></Route>
             <Route
               path="/admin/add-product"
-              element={<AddProductPage />}
+              element={<AddProductPage user={user}/>}
             ></Route>
             <Route
               path="/products/:id"

@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { login } from "../service/authService";
 import { useNavigate } from "react-router";
+import type { LoginRequest } from "../types/LoginRequest";
+type LoginPageProps = {
+  onLogin: (credentials: LoginRequest) => Promise<void>;
+}
 
-const LoginPage = () => {
+const LoginPage = ({onLogin}: LoginPageProps) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -11,11 +14,11 @@ const LoginPage = () => {
     setError("");
     const formData = new FormData(event.currentTarget);
     try {
-      const response = await login({
+      await onLogin({
         username: String(formData.get("username")),
         password: String(formData.get("password")),
       });
-      localStorage.setItem("accessToken", response.accessToken);
+      //localStorage.setItem("accessToken", response.accessToken);
       navigate("/");
     } catch {
       setError("Invalid username or password.");

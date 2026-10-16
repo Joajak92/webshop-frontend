@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import type { ProductResponse } from "../types/ProductResponse";
 import { getProducts } from "../service/productService";
-import { getPermissions, isAuthenticated } from "../service/authService";
+//import { getPermissions, isAuthenticated } from "../service/authService";
 import { Navigate } from "react-router";
 import AdminProductCard from "../components/AdminProductCard";
 import { useCategoryFilter } from "../hooks/useCategoryFilter";
 import CategoryFilter from "../components/CategoryFilter";
+import type { User } from "../types/LoginResponse";
 
-const AdminPage = () => {
+type AdminPageProps = {
+  user: User | null;
+};
+
+const AdminPage = ({user}: AdminPageProps) => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
@@ -17,13 +22,8 @@ const AdminPage = () => {
   useEffect(() => {
     async function verifyAdmin() {
       try {
-        if (!isAuthenticated()) {
-          setIsAdmin(false);
-          return;
-        }
-        const roles = await getPermissions();
-        const parsedRoles: string[] = JSON.parse(roles);
-        setIsAdmin(Object.values(parsedRoles).includes("ROLE_ADMIN"));
+        const isAdmin = user?.roles.includes("ROLE_ADMIN") ?? false;
+        setIsAdmin(isAdmin);
       } catch (error) {
         console.log(error);
         setIsAdmin(false);

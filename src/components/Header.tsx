@@ -1,13 +1,17 @@
-import { Link, useNavigate } from "react-router";
-import { getToken, logout } from "../service/authService";
-const Header = () => {
-  const navigate = useNavigate();
-  const isLoggedIn = !!getToken();
+import { Link } from "react-router";
+//import { logout } from "../service/authService";
+import type { User } from "../types/LoginResponse";
+//import { useState } from "react";
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login", { replace: true });
-  };
+type HeaderProps = {
+  user: User | null;
+  onLogout: () => Promise<void>;
+}
+
+const Header = ({user, onLogout}: HeaderProps) => {
+
+  // const [user, setUser] = useState<User | null>(null);
+
 
   return (
     <header className="bg-slate-600 p-4 text-white sm:flex sm:items-center sm:justify-between">
@@ -22,10 +26,10 @@ const Header = () => {
           Produkter
         </Link>
 
-        {isLoggedIn ? (
+        {user ? (
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={onLogout}
             className="bg-pink-600 px-4 py-2 text-white hover:bg-pink-700 self-start sm:w-auto btn-sm"
           >
             Log out
