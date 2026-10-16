@@ -1,19 +1,15 @@
 import type { ProductRequest } from "../types/ProductRequest";
 import type { ProductResponse } from "../types/ProductResponse";
-import { getToken } from "./authService";
+//import { getToken } from "./authService";
 
 const productUrl =
   import.meta.env.VITE_PRODUCT_API_URL ??
   "http://localhost:9003/gateway/products";
 
 export async function getProducts(): Promise<ProductResponse[]> {
-  const token = getToken();
-
   const response = await fetch(`${productUrl}`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -24,16 +20,14 @@ export async function getProducts(): Promise<ProductResponse[]> {
 
 export async function getProductById(id: number): Promise<ProductResponse> {
   const response = await fetch(`${productUrl}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-      "Content-Type": "application/json",
-    },
-  });
+    method: "GET",
+    credentials: "include",
+    });
 
   if (!response.ok) {
     throw new Error("Produkten kunde inte hämtas");
   }
-  return response.json();
+  return (await response.json()) as ProductResponse;
 }
 
 export async function addProduct(
@@ -41,8 +35,8 @@ export async function addProduct(
 ): Promise<ProductResponse> {
   const response = await fetch(productUrl, {
     method: "POST",
+    credentials: "include",
     headers: {
-      Authorization: `Bearer ${getToken()}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(product),
@@ -52,7 +46,5 @@ export async function addProduct(
     throw new Error("Produkt kunde inte skapas.");
   }
 
-  const responseText = await response.text();
-  const result = (await JSON.parse(responseText)) as ProductResponse;
-  return result;
+  return (await response.json() as ProductResponse)
 }

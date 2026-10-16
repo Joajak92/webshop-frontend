@@ -1,20 +1,23 @@
 import type { LoginRequest } from "../types/LoginRequest";
-import type { LoginResponse } from "../types/LoginResponse";
+import type { User } from "../types/LoginResponse";
 
-const loginUrl =
-  import.meta.env.VITE_AUTH_API_URL ??
-  "http://localhost:9003/gateway/auth/login";
+// const loginUrl =
+//   import.meta.env.VITE_AUTH_API_URL ??
+//   "http://localhost:9003/gateway/auth/login";
 
-const TOKEN_KEY = "access_token";
-const SUBJECT_KEY = "subject";
-const ROLES_KEY = "roles";
+const GATEWAY_API_BASE = import.meta.env.VITE_GATEWAY_API_URL;
 
-export async function login(credentials: LoginRequest): Promise<LoginResponse> {
-  const response = await fetch(loginUrl, {
+// const TOKEN_KEY = "access_token";
+// const SUBJECT_KEY = "subject";
+// const ROLES_KEY = "roles";
+
+export async function login(credentials: LoginRequest): Promise<User> {
+  const response = await fetch(`${GATEWAY_API_BASE}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(credentials),
   });
 
@@ -22,29 +25,36 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
     throw new Error("Fel användarnamn eller lösenord");
   }
 
-  const responseText = await response.text();
+  const user: User = await response.json();
+  return user;
+  //const responseText = await response.text();
 
-  const result = JSON.parse(responseText) as LoginResponse;
+  //const result = JSON.parse(responseText) as LoginResponse;
 
-  sessionStorage.setItem(TOKEN_KEY, result.accessToken);
-  sessionStorage.setItem(SUBJECT_KEY, result.subject);
-  sessionStorage.setItem(ROLES_KEY, JSON.stringify(result.roles));
-  return result;
+  //sessionStorage.setItem(TOKEN_KEY, result.accessToken);
+  //sessionStorage.setItem(SUBJECT_KEY, result.subject);
+  //sessionStorage.setItem(ROLES_KEY, JSON.stringify(result.roles));
+  //return result;
 }
 
-export function logout(): void {
-  sessionStorage.removeItem(TOKEN_KEY);
-  sessionStorage.removeItem(SUBJECT_KEY);
-  sessionStorage.removeItem(ROLES_KEY);
+export async function logout(): Promise<void> {
+  const response = await fetch(`${GATEWAY_API_BASE}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  }
+);
+if(!response.ok) {
+  throw new Error("Utloggningen misslyckades");
+}
 }
 
-export function getToken(): string | null {
-  return sessionStorage.getItem(TOKEN_KEY);
-}
+// export function getToken(): string | null {
+//   return sessionStorage.getItem(TOKEN_KEY);
+// }
 
-export function isAuthenticated(): boolean {
-  return getToken() !== null;
-}
+// export function isAuthenticated(): boolean {
+//   return getToken() !== null;
+// }
 
 export function getPermissions() {
   const role = sessionStorage.getItem("roles");

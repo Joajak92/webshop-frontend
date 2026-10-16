@@ -44,6 +44,8 @@ const mockProps = {
   onIncrease: vi.fn(),
   onDecrease: vi.fn(),
   onCheckout: vi.fn(),
+  user: null,
+  onLogout: vi.fn()
 };
 
 const getProductsMock = vi.mocked(getProducts);

@@ -4,3 +4,9 @@ export type LoginResponse = {
   subject: string;
   roles: string[];
 };
+
+export type User = {
+  exiresIn: number;
+  subject: string;
+  roles: string[];
+};

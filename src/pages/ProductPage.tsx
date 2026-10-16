@@ -23,6 +23,7 @@ const ProductPage = ({
   onIncrease,
   onDecrease,
   onCheckout,
+
 }: ProductPageProps) => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [showCart, setShowCart] = useState(false);
