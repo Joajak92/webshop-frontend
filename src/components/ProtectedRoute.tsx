@@ -2,11 +2,7 @@ import { Navigate, Outlet } from "react-router";
 import type { User } from "../types/LoginResponse";
 //import { isAuthenticated } from "../service/authService";
 
-type ProtectedRouteProps = {
-  user: User | null;
-};
-
-const ProtectedRoute = ({ user }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ user }: { user: User | null }) => {
   if (!user) {
     return <Navigate to="/login" replace />;
   }

@@ -1,6 +1,11 @@
 import { Link } from "react-router";
+import type { User } from "../types/LoginResponse";
 
-const WelcomePage = () => {
+type WelcomePageProps = {
+  user: User | null;
+};
+
+const WelcomePage = ({ user }: WelcomePageProps) => {
   return (
     <div className="min-h-screen bg-slate-400 p-6">
       <nav>
@@ -9,10 +14,10 @@ const WelcomePage = () => {
         </Link>
       </nav>
       <h1 className="text-3x1 font-bold text-black">
-        Välkommen {sessionStorage.getItem("subject")}!
+        Välkommen {user?.subject}!
       </h1>
       <p className="text-black">
-        Welcome to the shop as {sessionStorage.getItem("roles")}
+        Welcome to the shop as {user?.roles.join(", ")}
       </p>
     </div>
   );
