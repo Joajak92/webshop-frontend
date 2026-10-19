@@ -41,20 +41,22 @@ export async function logout(): Promise<void> {
   const response = await fetch(`${GATEWAY_API_BASE}/auth/logout`, {
     method: "POST",
     credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Utloggningen misslyckades");
   }
-);
-if(!response.ok) {
-  throw new Error("Utloggningen misslyckades");
-}
 }
 
-// export function getToken(): string | null {
-//   return sessionStorage.getItem(TOKEN_KEY);
-// }
-
-// export function isAuthenticated(): boolean {
-//   return getToken() !== null;
-// }
+export async function getMe(): Promise<User> {
+  const response = await fetch(`${GATEWAY_API_BASE}/auth/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Not authenticated");
+  }
+  return await response.json();
+}
 
 export function getPermissions() {
   const role = sessionStorage.getItem("roles");

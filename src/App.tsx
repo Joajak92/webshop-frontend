@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import type { CartItem, Product } from "./types/Product-cart";
 import { createOrder } from "./service/orderService";
 import type { LoginRequest } from "./types/LoginRequest";
-import { login, logout } from "./service/authService";
+import { getMe, login, logout } from "./service/authService";
 import type { User } from "./types/LoginResponse";
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
 
   async function handleLogin(credentials: LoginRequest) {
     const loggedInUser = await login(credentials);
-    setUser(loggedInUser)
+    setUser(loggedInUser);
   }
 
   function addToCart(product: Product) {
@@ -123,9 +123,26 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const authenticatedUser = await getMe();
+        setUser(authenticatedUser);
+      } catch (error) {
+        setUser(null);
+      }
+    }
+    checkAuth();
+  }, []);
+
   async function handleLogout() {
-    await logout();
-    setUser(null);
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      setUser(null);
+    }
   }
 
   return (
@@ -133,9 +150,12 @@ function App() {
       <Header user={user} onLogout={handleLogout}></Header>
       <main className="flex-1">
         <Routes>
-          <Route path="/login" element={<LoginPage onLogin={handleLogin} />}></Route>
+          <Route
+            path="/login"
+            element={<LoginPage onLogin={handleLogin} />}
+          ></Route>
 
-          <Route element={<ProtectedRoute  user={user}/>}>
+          <Route element={<ProtectedRoute user={user} />}>
             <Route path="/" element={<WelcomePage />}></Route>
             <Route
               path="/products"
@@ -149,10 +169,10 @@ function App() {
                 />
               }
             ></Route>
-            <Route path="/admin" element={<AdminPage user={user}/>}></Route>
+            <Route path="/admin" element={<AdminPage user={user} />}></Route>
             <Route
               path="/admin/add-product"
-              element={<AddProductPage user={user}/>}
+              element={<AddProductPage user={user} />}
             ></Route>
             <Route
               path="/products/:id"
