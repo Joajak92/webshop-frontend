@@ -12,12 +12,16 @@ type AdminPageProps = {
   user: User | null;
 };
 
-const AdminPage = ({user}: AdminPageProps) => {
+const AdminPage = ({ user }: AdminPageProps) => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
-  const {categories, selectedCategory, setSelectedCategory, filteredProducts} =
-  useCategoryFilter(products);
+  const {
+    categories,
+    selectedCategory,
+    setSelectedCategory,
+    filteredProducts,
+  } = useCategoryFilter(products);
 
   useEffect(() => {
     async function verifyAdmin() {
@@ -30,7 +34,7 @@ const AdminPage = ({user}: AdminPageProps) => {
       }
     }
     verifyAdmin();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     async function loadProducts() {
@@ -57,9 +61,9 @@ const AdminPage = ({user}: AdminPageProps) => {
         </h1>
 
         <CategoryFilter
-        categories={categories}
-        selected={selectedCategory}
-        onChange={setSelectedCategory}
+          categories={categories}
+          selected={selectedCategory}
+          onChange={setSelectedCategory}
         />
 
         <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

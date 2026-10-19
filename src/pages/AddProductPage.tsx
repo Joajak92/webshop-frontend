@@ -9,7 +9,7 @@ type AddProductPageProps = {
   user: User | null;
 };
 
-const AddProductPage = ({user}: AddProductPageProps) => {
+const AddProductPage = ({ user }: AddProductPageProps) => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
@@ -18,20 +18,13 @@ const AddProductPage = ({user}: AddProductPageProps) => {
       try {
         const isAdmin = user?.roles.includes("ROLE_ADMIN") ?? false;
         setIsAdmin(isAdmin);
-        // if (!isAuthenticated()) {
-        //   setIsAdmin(isAdmin);
-        //   return;
-        // }
-        // const roles = await getPermissions();
-        // const parsedRoles: string[] = JSON.parse(roles);
-        // setIsAdmin(Object.values(parsedRoles).includes("ROLE_ADMIN"));
       } catch (error) {
         console.log(error);
         setIsAdmin(false);
       }
     }
     verifyAdmin();
-  }, []);
+  }, [user]);
 
   if (isAdmin === null) return <div>Loading...</div>;
   if (!isAdmin) return <Navigate to="/" replace />;
