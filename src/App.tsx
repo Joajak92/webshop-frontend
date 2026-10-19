@@ -156,7 +156,7 @@ function App() {
           ></Route>
 
           <Route element={<ProtectedRoute user={user} />}>
-            <Route path="/" element={<WelcomePage />}></Route>
+            <Route path="/" element={<WelcomePage user={user} />}></Route>
             <Route
               path="/products"
               element={
