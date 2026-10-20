@@ -14,11 +14,12 @@ import { useEffect, useState } from "react";
 import type { CartItem, Product } from "./types/Product-cart";
 import { createOrder } from "./service/orderService";
 import type { LoginRequest } from "./types/LoginRequest";
-import { getMe, login, logout } from "./service/authService";
+import { getSession, login, logout } from "./service/authService";
 import type { User } from "./types/LoginResponse";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
     if (savedCart) {
@@ -124,25 +125,33 @@ function App() {
   };
 
   useEffect(() => {
-    async function checkAuth() {
+    async function restoreSession() {
       try {
-        const authenticatedUser = await getMe();
-        setUser(authenticatedUser);
+        const sessionUser = await getSession();
+        setUser(sessionUser);
       } catch (error) {
+        console.error("Message: ", error);
         setUser(null);
+      } finally {
+        setCheckingSession(false); 
       }
+
     }
-    checkAuth();
+    restoreSession();
   }, []);
 
   async function handleLogout() {
     try {
       await logout();
     } catch (error) {
-      console.error("Logout failed", error);
+      console.error("Logout failed ", error);
     } finally {
       setUser(null);
     }
+  }
+
+  if(checkingSession) {
+    return <p>Kontrollerar inloggning...</p>;
   }
 
   return (
