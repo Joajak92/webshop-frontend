@@ -23,10 +23,10 @@ const ProductPage = ({
   onIncrease,
   onDecrease,
   onCheckout,
-
 }: ProductPageProps) => {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [showCart, setShowCart] = useState(false);
+  const [error, setError] = useState("");
 
   const {
     categories,
@@ -40,12 +40,17 @@ const ProductPage = ({
 
   useEffect(() => {
     async function loadProducts() {
-      const data = await getProducts();
-      console.log(
-        "Products: ",
-        data.map((product) => product.name),
-      );
-      setProducts(data);
+      try {
+        const data = await getProducts();
+        console.log(
+          "Products: ",
+          data.map((product) => product.name),
+        );
+        setProducts(data);
+      } catch (error) {
+        console.error("Kunde inte hämta produkter", error);
+        setError("Kunde inte hämta produkter");
+      }
     }
     loadProducts();
     console.log(products);
@@ -83,6 +88,9 @@ const ProductPage = ({
             />
           </div>
         )}
+
+        {error && <p role="alert">{error}</p>}
+
         <div className="mt-6 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {searchedProducts.length === 0 && searchTerm.trim() !== "" ? (
             <p className="col-span-full text-sm text-slate-500">
