@@ -6,6 +6,8 @@ const productUrl =
   import.meta.env.VITE_PRODUCT_API_URL ??
   "http://localhost:9003/gateway/products";
 
+
+  // try/catch är inte helt fel
 export async function getProducts(): Promise<ProductResponse[]> {
   const response = await fetch(`${productUrl}`, {
     method: "GET",
