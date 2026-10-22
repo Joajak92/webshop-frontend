@@ -2,7 +2,7 @@
 import type { CreateOrderRequest } from "../types/Order";
 
 
-const ordersUrl = import.meta.env.VITE_ORDER_API_URL ?? "http://localhost:9003/gateway/orders";
+const ordersUrl = import.meta.env.ORDERS_URL;
 
 export const createOrder = async (order: CreateOrderRequest) => {
   const response = await fetch(ordersUrl, {
