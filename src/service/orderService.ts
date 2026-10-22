@@ -2,7 +2,7 @@
 import type { CreateOrderRequest } from "../types/Order";
 
 
-const ordersUrl = import.meta.env.ORDERS_URL;
+const ordersUrl = import.meta.env.VITE_ORDERS_API_URL;
 
 export const createOrder = async (order: CreateOrderRequest) => {
   const response = await fetch(ordersUrl, {
