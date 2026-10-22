@@ -2,9 +2,7 @@ import type { ProductRequest } from "../types/ProductRequest";
 import type { ProductResponse } from "../types/ProductResponse";
 //import { getToken } from "./authService";
 
-const productUrl =
-  import.meta.env.VITE_PRODUCT_API_URL ??
-  "http://localhost:9003/gateway/products";
+const productUrl = import.meta.env.VITE_PRODUCT_API_URL;
 
 
   // try/catch är inte helt fel
