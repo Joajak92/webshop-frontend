@@ -2,12 +2,12 @@ import type { ProductRequest } from "../types/ProductRequest";
 import type { ProductResponse } from "../types/ProductResponse";
 //import { getToken } from "./authService";
 
-const productUrl = import.meta.env.VITE_PRODUCT_API_URL;
+const productUrl = import.meta.env.VITE_GATEWAY_API_URL;
 
 
   // try/catch är inte helt fel
 export async function getProducts(): Promise<ProductResponse[]> {
-  const response = await fetch(`${productUrl}`, {
+  const response = await fetch(`${productUrl}/products`, {
     method: "GET",
     credentials: "include",
   });
