@@ -6,10 +6,13 @@ import { BrowserRouter } from "react-router";
 
 async function enableMocking() {
   if (import.meta.env.DEV) {
+  if (import.meta.env.VITE_ENABLE_MOCKS === "true") {
+
     const { worker } = await import("./mocks/browser");
 
     return worker.start({ onUnhandledFrame: "bypass" });
   }
+}
 }
 
 enableMocking().then(() => {
@@ -21,3 +24,4 @@ enableMocking().then(() => {
     </StrictMode>,
   );
 });
+

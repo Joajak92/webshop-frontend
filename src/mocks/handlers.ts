@@ -24,14 +24,14 @@ const products = [
 ];
 
 export const handlers = [
-  // http.get("*/auth/me", () => {
-  //     return HttpResponse.json({
-  //         expiresIn: 3600,
-  //         subject: "mock-user",
-  //         roles: ["USER"],
-  //     });
-  // }),
-  // http.get("*/products", () => {
-  //     return HttpResponse.json(products);
-  // }),
+  http.get("*/auth/me", () => {
+      return HttpResponse.json({
+          expiresIn: 3600,
+          subject: "mock-user",
+          roles: ["USER"],
+      });
+  }),
+  http.get("*/products", () => {
+      return HttpResponse.json(products);
+  }),
 ];
