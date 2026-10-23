@@ -33,6 +33,7 @@ export async function logout(): Promise<void> {
 
 export async function getSession(): Promise<User | null> {
   const response = await fetch(`${GATEWAY_API_BASE}/auth/me`, {
+    method: "GET",
     credentials: "include",
   });
   if (!response.ok) {
