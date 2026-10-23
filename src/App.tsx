@@ -125,19 +125,23 @@ function App() {
   };
 
   useEffect(() => {
+    let isMounted = true;
+
     async function restoreSession() {
       try {
         const sessionUser = await getSession();
-        setUser(sessionUser);
-      } catch (error) {
-        console.error("Message: ", error);
-        setUser(null);
+        if (isMounted) setUser(sessionUser);
+      } catch {
+        if (isMounted) setUser(null);
       } finally {
-        setCheckingSession(false); 
+        if (isMounted) setCheckingSession(false);
       }
-
     }
+
     restoreSession();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   async function handleLogout() {
@@ -150,7 +154,7 @@ function App() {
     }
   }
 
-  if(checkingSession) {
+  if (checkingSession) {
     return <p>Kontrollerar inloggning...</p>;
   }
 
