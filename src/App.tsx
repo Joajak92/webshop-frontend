@@ -16,10 +16,12 @@ import { createOrder } from "./service/orderService";
 import type { LoginRequest } from "./types/LoginRequest";
 import { getSession, login, logout } from "./service/authService";
 import type { User } from "./types/LoginResponse";
+import CookieBanner from "./components/CookieBanner";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
+  const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(true);
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = sessionStorage.getItem("cart");
     if (savedCart) {
@@ -35,6 +37,14 @@ function App() {
   async function handleLogin(credentials: LoginRequest) {
     const loggedInUser = await login(credentials);
     setUser(loggedInUser);
+  }
+
+  function closeCookieBanner() {
+    setIsCookieBannerVisible(false);
+  }
+
+  function openCookieBanner() {
+    setIsCookieBannerVisible(true);
   }
 
   function addToCart(product: Product) {
@@ -195,7 +205,11 @@ function App() {
           </Route>
         </Routes>
       </main>
-      <Footer></Footer>
+      <Footer onOpenCookieInfo={openCookieBanner} />
+      <CookieBanner
+        isVisible={isCookieBannerVisible}
+        onClose={closeCookieBanner}
+      />
     </div>
   );
 }
