@@ -1,11 +1,10 @@
 import type { ProductRequest } from "../types/ProductRequest";
 import type { ProductResponse } from "../types/ProductResponse";
-//import { getToken } from "./authService";
 
 const productUrl = import.meta.env.VITE_GATEWAY_API_URL;
 
 
-  // try/catch är inte helt fel
+
 export async function getProducts(): Promise<ProductResponse[]> {
   const response = await fetch(`${productUrl}/products`, {
     method: "GET",
@@ -19,7 +18,7 @@ export async function getProducts(): Promise<ProductResponse[]> {
 }
 
 export async function getProductById(id: number): Promise<ProductResponse> {
-  const response = await fetch(`${productUrl}/${id}`, {
+  const response = await fetch(`${productUrl}/products/${id}`, {
     method: "GET",
     credentials: "include",
     });
@@ -33,7 +32,7 @@ export async function getProductById(id: number): Promise<ProductResponse> {
 export async function addProduct(
   product: ProductRequest,
 ): Promise<ProductResponse> {
-  const response = await fetch(productUrl, {
+  const response = await fetch(`${productUrl}/add-products`, {
     method: "POST",
     credentials: "include",
     headers: {
