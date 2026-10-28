@@ -9,6 +9,7 @@ type HeaderProps = {
 
 const Header = ({ user, onLogout }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const isAdmin = user?.roles.includes("ROLE_ADMIN") ?? false;
 
   return (
     <header className="bg-slate-600 p-4 text-white">
@@ -65,7 +66,7 @@ const Header = ({ user, onLogout }: HeaderProps) => {
           </button>
         ) : (
           <Link
-            className={`hover:text-slate-300 ${!user?.roles.includes("ROLE_ADMIN") ? "sm:ml-auto" : ""}`}
+            className={`hover:text-slate-300 sm:ml-auto" : ""}`}
             to="/login"
           >
             Log in
