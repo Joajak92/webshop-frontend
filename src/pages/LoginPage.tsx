@@ -43,7 +43,7 @@ const LoginPage = ({onLogin}: LoginPageProps) => {
           name="username"
           type="email"
           required
-          className="bg-white p-2 sm:w-full sm:p-2 text-black"
+          className="mt-1 block w-full min-w-0 bg-white p-2 text-black"
         />
       </div>
 
@@ -58,7 +58,7 @@ const LoginPage = ({onLogin}: LoginPageProps) => {
           name="password"
           type="password"
           required
-          className="bg-white text-black p-2 sm:w-full"
+          className="mt-1 block w-full min-w-0 bg-white p-2 text-black"
         />
       </div>
 
