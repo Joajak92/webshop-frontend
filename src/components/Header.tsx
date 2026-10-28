@@ -61,14 +61,14 @@ const Header = ({ user, onLogout }: HeaderProps) => {
             onClick={onLogout}
             className={`bg-pink-600 px-4 py-2 text-white hover:bg-pink-700 self-start sm:w-auto btn-sm ${!user?.roles.includes("ROLE_ADMIN") ? "sm:ml-auto" : ""}`}
           >
-            Log out
+            Logga ut
           </button>
         ) : (
           <Link
             className={`hover:text-slate-300 sm:ml-auto" : ""}`}
             to="/login"
           >
-            Log in
+            Logga in
           </Link>
         )}
       </nav>
