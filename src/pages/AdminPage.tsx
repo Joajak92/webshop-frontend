@@ -50,7 +50,7 @@ const AdminPage = ({ user }: AdminPageProps) => {
     }
   }, [isAdmin]);
 
-  if (isAdmin === null) return <div>Loading...</div>;
+  if (isAdmin === null) return <div>Laddar...</div>;
   if (!isAdmin) return <Navigate to="/" replace />;
 
   return (

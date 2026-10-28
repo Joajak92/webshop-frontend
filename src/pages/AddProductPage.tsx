@@ -26,7 +26,7 @@ const AddProductPage = ({ user }: AddProductPageProps) => {
     verifyAdmin();
   }, [user]);
 
-  if (isAdmin === null) return <div>Loading...</div>;
+  if (isAdmin === null) return <div>Laddar...</div>;
   if (!isAdmin) return <Navigate to="/" replace />;
 
   async function handleAddProduct(product: ProductRequest) {

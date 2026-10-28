@@ -3,9 +3,9 @@ import { useNavigate } from "react-router";
 import type { LoginRequest } from "../types/LoginRequest";
 type LoginPageProps = {
   onLogin: (credentials: LoginRequest) => Promise<void>;
-}
+};
 
-const LoginPage = ({onLogin}: LoginPageProps) => {
+const LoginPage = ({ onLogin }: LoginPageProps) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -30,12 +30,12 @@ const LoginPage = ({onLogin}: LoginPageProps) => {
       onSubmit={handleSubmit}
       className="bg-slate-600 text-white mx-5 border-6 border-black rounded p-5 my-10 items-center self-center"
     >
-      <h1 className="text-3xl font-bold uppercase">Log in</h1>
+      <h1 className="text-3xl font-bold uppercase">Logga in</h1>
 
       <div className="my-2">
         <div>
           <label htmlFor="username" className="text-white">
-            Username
+            Användarnamn
           </label>
         </div>
         <input
@@ -50,7 +50,7 @@ const LoginPage = ({onLogin}: LoginPageProps) => {
       <div className="my-5">
         <div>
           <label htmlFor="password" className="text-white">
-            Password
+            Lösenord
           </label>
         </div>
         <input
@@ -67,7 +67,7 @@ const LoginPage = ({onLogin}: LoginPageProps) => {
           type="submit"
           className="bg-slate-500 p-2 uppercase border-2 text-white hover:bg-slate-600"
         >
-          Log in
+          Logga in
         </button>
       </div>
       {error && <p role="alert">{error}</p>}
