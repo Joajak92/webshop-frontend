@@ -1,18 +1,12 @@
 import { Link } from "react-router";
-//import { logout } from "../service/authService";
 import type { User } from "../types/LoginResponse";
-//import { useState } from "react";
 
 type HeaderProps = {
   user: User | null;
   onLogout: () => Promise<void>;
-}
+};
 
-const Header = ({user, onLogout}: HeaderProps) => {
-
-  // const [user, setUser] = useState<User | null>(null);
-
-
+const Header = ({ user, onLogout }: HeaderProps) => {
   return (
     <header className="bg-slate-600 p-4 text-white sm:flex sm:items-center sm:justify-between">
       <h1 className="text-2xl font-bold">Webshop</h1>
@@ -25,6 +19,12 @@ const Header = ({user, onLogout}: HeaderProps) => {
         <Link className="hover:text-slate-300" to="/products">
           Produkter
         </Link>
+
+        {user?.roles.includes("ROLE_ADMIN") ? (
+          <Link to="/admin">Admin</Link>
+        ) : (
+          <></>
+        )}
 
         {user ? (
           <button
