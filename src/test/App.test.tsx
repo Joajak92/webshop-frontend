@@ -50,7 +50,7 @@ it("återställer den inloggade användaren vid lyckat svar från /auth/me", asy
     }),
   ).toBeInTheDocument();
 
-  expect(screen.getByRole("button", { name: "Log out" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Logga ut" })).toBeInTheDocument();
 });
 
 it("betraktar användaren som utloggad vid 401 från /auth/me", async () => {
@@ -67,12 +67,12 @@ it("betraktar användaren som utloggad vid 401 från /auth/me", async () => {
   );
 
   expect(
-    await screen.findByRole("heading", { name: "Log in" }),
+    await screen.findByRole("heading", { name: "Logga in" }),
   ).toBeInTheDocument();
 
-  expect(screen.getByRole("link", { name: "Log in" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Logga in" })).toBeInTheDocument();
 
   expect(
-    screen.queryByRole("button", { name: "Log out" }),
+    screen.queryByRole("button", { name: "Logga ut" }),
   ).not.toBeInTheDocument();
 });
