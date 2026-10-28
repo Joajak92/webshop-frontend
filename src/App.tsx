@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import WelcomePage from "./pages/WelcomePage";
@@ -12,13 +12,16 @@ import NotFound from "./pages/NotFound";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import { useEffect, useState } from "react";
 import type { CartItem, Product } from "./types/Product-cart";
-import { createOrder } from "./service/orderService";
 import type { LoginRequest } from "./types/LoginRequest";
 import { getSession, login, logout } from "./service/authService";
 import type { User } from "./types/LoginResponse";
 import CookieBanner from "./components/CookieBanner";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+
 
 function App() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
   const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(true);
@@ -112,27 +115,19 @@ function App() {
     setCartItems(updatedItems);
   }
 
-  const handleCheckout = async () => {
+  async function handleCheckout(): Promise<void> {
     if (cartItems.length === 0) {
       alert("Kundvagnen är tom");
       return;
     }
-    const orderRequest = {
-      items: cartItems.map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-      })),
-    };
 
-    try {
-      await createOrder(orderRequest);
-      setCartItems([]);
-      sessionStorage.removeItem("cart");
-      alert("Ordern har skapats.");
-    } catch {
-      alert("Något gick fel när ordern skulle skapas");
-    }
-  };
+    navigate("/checkout");
+  }
+
+function handleOrderCreated() {
+  setCartItems([]);
+  sessionStorage.removeItem("cart");
+}
 
   useEffect(() => {
     let isMounted = true;
@@ -191,7 +186,24 @@ function App() {
                   cartItems={cartItems}
                 />
               }
-            ></Route>
+              />
+              <Route
+  path="/checkout"
+  element={
+    <CheckoutPage
+      cartItems={cartItems}
+      onOrderCreated={handleOrderCreated}
+    />
+  }
+/>
+
+    <Route
+  path="/order-confirmation"
+  element={<OrderConfirmationPage />}
+/>
+              
+              
+           
             <Route path="/admin" element={<AdminPage user={user} />}></Route>
             <Route
               path="/admin/add-product"

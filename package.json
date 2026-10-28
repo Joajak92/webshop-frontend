@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^7.0.1",
+    "@stripe/stripe-js": "^10.2.0",
     "@tailwindcss/vite": "^4.3.3",
     "jest-dom": "^4.0.0",
     "react": "^19.2.8",
