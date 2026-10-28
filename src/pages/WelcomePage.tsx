@@ -7,19 +7,24 @@ type WelcomePageProps = {
 
 const WelcomePage = ({ user }: WelcomePageProps) => {
   return (
-    <div className="min-h-screen bg-slate-400 p-6">
-      <nav>
-        <Link to="/products" className="text-pink-600">
-          Produkter
+    <section className="flex bg-slate-50 text-slate-900 sm:min-h-[calc(100svh-8rem)]">
+      <div className="mx-auto my-auto w-full max-w-3xl px-4 py-16 text-center sm:px-8 sm:py-20 lg:py-24">
+        <h1 className="break-words text-4xl font-bold tracking-tight sm:text-5xl">
+          Välkommen, {user?.subject}!
+        </h1>
+
+        <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+          Upptäck vårt sortiment och hitta något som passar dig.
+        </p>
+
+        <Link
+          to="/products"
+          className="mt-8 inline-flex rounded-lg bg-pink-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-pink-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600"
+        >
+          Utforska produkter
         </Link>
-      </nav>
-      <h1 className="text-3x1 font-bold text-black">
-        Välkommen {user?.subject}!
-      </h1>
-      <p className="text-black">
-        Welcome to the shop as {user?.roles.join(", ")}
-      </p>
-    </div>
+      </div>
+    </section>
   );
 };
 export default WelcomePage;
