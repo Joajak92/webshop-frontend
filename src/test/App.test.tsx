@@ -46,7 +46,7 @@ it("återställer den inloggade användaren vid lyckat svar från /auth/me", asy
 
   expect(
     await screen.findByRole("heading", {
-      name: /Välkommen, mock-user!/i,
+      name: /Välkommen mock-user!/i,
     }),
   ).toBeInTheDocument();
 
