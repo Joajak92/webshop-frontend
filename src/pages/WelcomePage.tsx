@@ -18,7 +18,7 @@ const WelcomePage = ({ user }: WelcomePageProps) => {
         <div className="mx-auto max-w-3xl text-center">
           
           <h1 className="mt-6 break-words text-5xl font-black tracking-tight sm:text-5xl">
-  ✨Välkommen {user?.subject}! 👋
+  ✨Välkommen, {user?.subject}! 👋
 </h1>
 
         </div>
