@@ -57,3 +57,6 @@ Role: Manages the orders created by users.
 
 E-mail-service: https://github.com/joel-schou/email-service
 Role: Sends a cofnirmation e-mail to the user's mail after the order has been sent.
+
+Payment-service: https://github.com/Joajak92/payment-service
+Role: Handles payment in a sandbox-environment provided by Stripe payments.
